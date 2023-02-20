@@ -5,13 +5,15 @@ import Box from "./Box"
 
 function App() {
   const [boxes, setBoxes] = useState(Data)
-
+  // id here is passed from box compoenent as toggle(props.id)
   function toggle(id) {
-    console.log(id)
+    
     const newBoxes = setBoxes((prevState) => {
-      return prevState.map((item) => 
-        id===item.id ? {...item, on: !item.on} : {...item } 
-      )
+      // map through current array 
+      return prevState.map((item) =>
+        //if currentItem.id = id, refactor object else return object
+        id === item.id ? { ...item, on: !item.on } : { ...item }
+      );
     })
 
     return newBoxes

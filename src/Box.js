@@ -10,6 +10,8 @@ export default function Box(props) {
 
     }
     return (
+        //Pass toggle funtion on component click
+        //onClick = funtion that computes id of clicked box and implements toggle funtion
         <div id={props.id} onClick={()=>props.toggle(props.id)} style={style}></div>
     )
 }
