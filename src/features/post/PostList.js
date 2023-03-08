@@ -5,17 +5,17 @@ const PostList = () => {
     const posts = useSelector(selectAllPosts)
     
     const renderedPosts = posts.map((item) => {
-        return <article key={item.id}>
-            <h3>{ item.title}</h3>
-            <p>{ item.content.substring(0, 100)}</p>
+      return <article className="post-container" key={item.id}>
+            <h3 className="post-title">{ item.title}</h3>
+            <p className="post-content">{ item.content.substring(0, 100)}</p>
         </article>
     })
 
     return (
-      <div>
-        <h1>Posts</h1>
+      <section className="post-section">
+        <h1 className="blog-post">Posts</h1>
         {renderedPosts}
-      </div>
+      </section>
     );
 }
 

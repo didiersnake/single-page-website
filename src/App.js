@@ -5,7 +5,7 @@ import PostList from "./features/post/PostList";
 function App() {
   
   return (
-    <section>
+    <section className="body-container" >
     <AddPostForm/>
     <PostList/>
     </section>

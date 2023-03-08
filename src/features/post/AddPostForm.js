@@ -34,24 +34,24 @@ function AddPostForm() {
 
   return (
     <section>
-      <h1>Add a new post</h1>
-      <form>
-        <label htmlFor="postTitle">Post title:</label>
-        <input
+      <h1 className="add-post">Add a new post</h1>
+      <form className="form">
+        <label className="form-lable" htmlFor="postTitle">Post title:</label>
+        <input className="form-input"
           type="text"
           name="postTitle"
           value={title}
           id="postTitle"
           onChange={onTitleChange}
         />
-        <label htmlFor="postContent">Post content:</label>
-        <textarea
+        <label className="form-label" htmlFor="postContent">Post content:</label>
+        <textarea className="form-input textarea"
           name="postContent"
           value={content}
           id="postContent"
           onChange={onContentChange}
         />
-        <button type="button" onClick={onPostAdd} >save post</button>
+        <button className="btn" type="button" onClick={onPostAdd} >save post</button>
       </form>
     </section>
   );
