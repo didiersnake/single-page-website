@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postAdded } from "./postSlice";
 import React from "react";
-import { users } from "../users/userSlice";
+import { selectAllUsers } from "../users/userSlice";
 
 function AddPostForm() {
   // These are temporary states
-  //(while waiting to be passed to slice and stored in store )
+  //(while waiting to be passed to slice )
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [userId, setUserId] = useState("");
@@ -16,7 +16,7 @@ function AddPostForm() {
   const onAuthorChange = (e) => setUserId(e.target.value);
 
   const dispatch = useDispatch();
-  const allUsers = useSelector(users)
+  const allUsers = useSelector(selectAllUsers)
 
 // display available users from userSlice 
   const userOption = allUsers.map((user) => {
@@ -64,7 +64,7 @@ function AddPostForm() {
           id="postTitle"
           onChange={onTitleChange}
         />
-        
+
         <label className="form-lable" htmlFor="postAuthor">
           Author
         </label>

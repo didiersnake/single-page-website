@@ -2,12 +2,17 @@ import { useSelector } from "react-redux";
 import { selectAllPosts } from "./postSlice";
 import PostAuthor from "./PostAuthor";
 import TimeAgo from "./TimeAgo";
+import ReactionButtons from "./ReactionButtons";
 
 
 const PostList = () => {
   const posts = useSelector(selectAllPosts);
 
-  const renderedPosts = posts.map((item) => {
+  // Arrange post view by latest date 
+  const orderedPost = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
+
+  const renderedPosts = orderedPost.map((item) => {
+    
     return (
       <article className="post-container" key={item.id}>
         <h3 className="post-title">{item.title}</h3>
@@ -16,6 +21,7 @@ const PostList = () => {
           <PostAuthor userId={item.userId} />
           <TimeAgo timestamp={item.date}/>
         </div>
+        <ReactionButtons post={item} />
       </article>
     );
   });

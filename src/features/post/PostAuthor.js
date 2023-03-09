@@ -1,13 +1,13 @@
-import { users } from "../users/userSlice";
+import { selectAllUsers } from "../users/userSlice";
 import { useSelector } from "react-redux";
 
 // set author display for each post
 // Add author component to postList Component 
 function PostAuthor({ userId }) {
-    const allUsers = useSelector(users)
+    const users = useSelector(selectAllUsers);
     //find author 
-    const author = allUsers.find( user => user.id === userId );
-
+    const author = users.find(({ id }) => id === userId);
+    console.log(author)
   return (
       <span >{ author ? author.name : "Guest" }</span>
   )
