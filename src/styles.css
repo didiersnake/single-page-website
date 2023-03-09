@@ -6,6 +6,7 @@
   font-size: 1rem;
   box-sizing: border-box;
   font-family: poppins;
+  font-weight: 500;
 }
 
 h1 {
@@ -97,6 +98,11 @@ section {
   outline: 1px solid transparent;
 }
 
+.btn:disabled {
+  opacity: .2;
+
+}
+
 .post-section{
     align-items: baseline;
 }
@@ -116,4 +122,6 @@ section {
 
 .post-title {
     padding: 8px;
+    font-size: larger;
+    font-weight: 600;
 }
