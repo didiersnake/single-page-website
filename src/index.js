@@ -4,7 +4,9 @@ import App from "./App";
 import "./styles.css"
 import { store } from "./app/store";
 import { Provider } from "react-redux";
+import { fetchUsers } from "./features/users/userSlice";
 
+store.dispatch(fetchUsers())
 
 ReactDOM.render(
   <React.StrictMode>

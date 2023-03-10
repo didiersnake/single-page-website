@@ -6,9 +6,8 @@ import { useSelector } from "react-redux";
 function PostAuthor({ userId }) {
     const users = useSelector(selectAllUsers);
     //find author 
-    const author = users.find(({ id }) => id === userId);
-    console.log(author)
-  return (
+    const author = users.find( user => user.id === userId);
+    return (
       <span >{ author ? author.name : "Guest" }</span>
   )
 }
