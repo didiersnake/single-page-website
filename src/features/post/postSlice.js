@@ -2,29 +2,41 @@ import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
 import { sub } from "date-fns";
 import axios from "axios";
 
-
 const POST_URL = "https://jsonplaceholder.typicode.com/posts";
 
-const initialState = 
-  {
-    post: [],
-    status: "idle", // idle | loading | succeed | fail 
-    error: null
+const initialState = {
+  post: [],
+  status: "idle", // idle | loading | succeed | fail
+  error: null,
+};
+
+//fetch
+export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
+  //Request data
+  const response = await axios.get(POST_URL);
+  return [...response.data];
+});
+
+//post
+export const addPosts = createAsyncThunk(
+  "posts/addPosts",
+  async (initialPost) => {
+    //add data (initialPost)
+    const response = await axios.post(POST_URL, initialPost);
+    return response.data;
   }
+);
 
-  //fetch data
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-  //Request data 
-  const response = await axios.get(POST_URL)
-  return [...response.data]
-})
-
-//post data 
-export const addPosts = createAsyncThunk('posts/addPosts', async (initialPost) => {
-  //add data (initialPost) 
-  const response = await axios.post(POST_URL, initialPost)
-  return response.data
-})
+//update
+export const update = createAsyncThunk(
+  "posts/updatePosts",
+  async (initialPost) => {
+    //add data (initialPost)
+    const { id } = initialPost;
+    const response = await axios.put(`${POST_URL}/${id}`, initialPost);
+    return response.data;
+  }
+);
 
 export const postsSlice = createSlice({
   name: "posts",
@@ -57,20 +69,20 @@ export const postsSlice = createSlice({
       },
     },
     reactionAdded(state, action) {
-      const { postId, reaction } = action.payload
-      //if post exist increment the reaction value 
+      const { postId, reaction } = action.payload;
+      //if post exist increment the reaction value
       //destructure the state and compare state.post.id === postId
-      const existingPost = state.post.find(({id}) => id === postId)
+      const existingPost = state.post.find(({ id }) => id === postId);
       if (existingPost) {
         // does not mutate in creatSlice
-        existingPost.reactions[reaction]++
+        existingPost.reactions[reaction]++;
       }
     },
   },
   extraReducers(builder) {
     builder
       .addCase(fetchPosts.pending, (state, action) => {
-      state.status = "loading";
+        state.status = "loading";
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = "succeeded";
@@ -91,8 +103,8 @@ export const postsSlice = createSlice({
         state.post = state.post.concat(loadedPost);
       })
       .addCase(fetchPosts.rejected, (state, action) => {
-        state.status = "rejected"
-        state.error = action.error.message
+        state.status = "rejected";
+        state.error = action.error.message;
       })
       .addCase(addPosts.fulfilled, (state, action) => {
         action.payload.userId = Number(action.payload.userId);
@@ -107,7 +119,19 @@ export const postsSlice = createSlice({
         //Post newpost to post []
         state.post.push(action.payload);
       })
-  }
+      .addCase(update.fulfilled, (state, action) => {
+        if (!action.payload?.id) {
+          console.log("Update could not be completed");
+          console.log(action.payload);
+          return;
+        }
+        const { id } = action.payload;
+        action.payload.date = new Date().toISOString();
+        // (filter out previous post with same id)
+        const posts = state.post.filter((post) => post.id !== id);
+        state.post = [...posts, action.payload];
+      });
+  },
 });
 
 // Set state to use in component
@@ -115,9 +139,9 @@ export const selectAllPosts = (state) => state.posts.post;
 export const getPostError = (state) => state.posts.error;
 export const getPostStatus = (state) => state.posts.status;
 
-export const selectPostById = (state, postId)=> {
-  return state.posts.post.find(post => post.id === postId);
-}
+export const selectPostById = (state, postId) => {
+  return state.posts.post.find((post) => post.id === postId);
+};
 
 export const { postAdded, reactionAdded } = postsSlice.actions;
 

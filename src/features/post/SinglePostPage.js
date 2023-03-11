@@ -4,12 +4,11 @@ import TimeAgo from './TimeAgo';
 import ReactionButtons from './ReactionButtons';
 import PostAuthor from './PostAuthor';
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 function SinglePostPage() {
     //Retrieve postId
     const { postId } = useParams();
-
     const post = useSelector((state) => selectPostById(state, Number(postId)));
 
     if (!post) {
@@ -26,6 +25,7 @@ function SinglePostPage() {
       <div>
         <PostAuthor userId={post.userId} />
         <TimeAgo timestamp={post.date} />
+        <Link to={`/post/edit/${post.id}`}>Edit Post</Link>
       </div>
       <ReactionButtons post={post} />
     </article>
