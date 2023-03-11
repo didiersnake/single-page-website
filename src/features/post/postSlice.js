@@ -77,7 +77,7 @@ export const postsSlice = createSlice({
         //Add date and reactions to post
         let min = 1;
         const loadedPost = action.payload.map((post) => {
-          post.date = sub(new Date(), { minutes: min++ }).toISOString()
+          post.date = sub(new Date(), { minutes: min++ }).toISOString();
           post.reactions = {
             thumbsUp: 0,
             wow: 0,
@@ -85,18 +85,18 @@ export const postsSlice = createSlice({
             rocket: 0,
             coffee: 0,
           };
-          return post
-        })
-      //Add fetched post to post []
-        state.post = state.post.concat(loadedPost)
+          return post;
+        });
+        //Add fetched post to post []
+        state.post = state.post.concat(loadedPost);
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "rejected"
         state.error = action.error.message
       })
       .addCase(addPosts.fulfilled, (state, action) => {
-        action.payload.userId = Number(action.payload.userId)
-        action.payload.date = new Date().toISOString()
+        action.payload.userId = Number(action.payload.userId);
+        action.payload.date = new Date().toISOString();
         action.payload.reactions = {
           thumbsUp: 0,
           wow: 0,
@@ -104,8 +104,9 @@ export const postsSlice = createSlice({
           rocket: 0,
           coffee: 0,
         };
-        state.post.push(action.payload)
-    })
+        //Post newpost to post []
+        state.post.push(action.payload);
+      })
   }
 });
 
@@ -113,6 +114,10 @@ export const postsSlice = createSlice({
 export const selectAllPosts = (state) => state.posts.post;
 export const getPostError = (state) => state.posts.error;
 export const getPostStatus = (state) => state.posts.status;
+
+export const selectPostById = (state, postId)=> {
+  return state.posts.post.find(post => post.id === postId);
+}
 
 export const { postAdded, reactionAdded } = postsSlice.actions;
 
