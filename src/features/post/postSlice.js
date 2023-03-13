@@ -1,4 +1,4 @@
-import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { sub } from "date-fns";
 import axios from "axios";
 
@@ -8,6 +8,7 @@ const initialState = {
   post: [],
   status: "idle", // idle | loading | succeed | fail
   error: null,
+  count: 0
 };
 
 //fetch
@@ -50,7 +51,8 @@ export const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    postAdded: {
+    // Not used
+/*     postAdded: {
       reducer(state, action) {
         // normally not the xorrext way but here immer js manages it
         // it works only in creatSlice
@@ -76,6 +78,8 @@ export const postsSlice = createSlice({
         };
       },
     },
+ */
+    
     reactionAdded(state, action) {
       const { postId, reaction } = action.payload;
       //if post exist increment the reaction value
@@ -86,6 +90,10 @@ export const postsSlice = createSlice({
         existingPost.reactions[reaction]++;
       }
     },
+
+    increaseCount(state, action) {
+      state.count = state.count + 1
+    }
   },
   extraReducers(builder) {
     builder
@@ -164,11 +172,12 @@ export const postsSlice = createSlice({
 export const selectAllPosts = (state) => state.posts.post;
 export const getPostError = (state) => state.posts.error;
 export const getPostStatus = (state) => state.posts.status;
+export const getCount = (state) => state.posts.count;
 
 export const selectPostById = (state, postId) => {
   return state.posts.post.find((post) => post.id === postId);
 };
 
-export const { postAdded, reactionAdded } = postsSlice.actions;
+export const { postAdded, reactionAdded, increaseCount } = postsSlice.actions;
 
 export default postsSlice.reducer;
