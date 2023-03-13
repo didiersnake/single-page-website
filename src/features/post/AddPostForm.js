@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 //import { postAdded } from "./postSlice";
 // now adding post direct Api
 import { addPosts } from "./postSlice";
-
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import { selectAllUsers } from "../users/userSlice";
 
@@ -18,7 +18,7 @@ function AddPostForm() {
 
   const onTitleChange = (e) => setTitle(e.target.value);
   const onContentChange = (e) => setContent(e.target.value);
-  const onAuthorChange = (e) => setUserId(e.target.value);
+  const onAuthorChange = (e) => setUserId(Number(e.target.value));
 
   // disable button if state empty
   //const canSave = Boolean(title) && Boolean(content) && Boolean(userId);
@@ -26,6 +26,7 @@ function AddPostForm() {
   const canSave = [title, content, userId].every(Boolean) && addRequestStatus === "idle"
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const allUsers = useSelector(selectAllUsers);
 
   // display available users from userSlice
@@ -64,6 +65,7 @@ function AddPostForm() {
         setContent("");
         setTitle("");
         setUserId("");
+        navigate("/")
       } catch (error) {
         console.log("failed to save", error)
       }

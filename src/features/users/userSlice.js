@@ -10,6 +10,8 @@ export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
     const response = await axios.get(USER_URL)
     return [...response.data]
 })
+
+
 const userSlice = createSlice({
     name: "users",
     initialState,
@@ -22,6 +24,10 @@ const userSlice = createSlice({
         })
     }
 })
+
+export const selectUserById = (state, userId) => {
+    return state.users.find((user) => user.id === (userId))
+}
 
 // Load users when app starts in index.js 
 export const selectAllUsers = (state) => state.users;

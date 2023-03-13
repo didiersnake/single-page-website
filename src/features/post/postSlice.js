@@ -38,6 +38,14 @@ export const update = createAsyncThunk(
   }
 );
 
+// delete post 
+export const deletePosts = createAsyncThunk("posts/deletePosts", async (initialPost) => {
+  const { id } = initialPost;
+  const response = await axios.delete(`${POST_URL}/${id}`, initialPost);
+  if (response?.status === 200) return initialPost;
+  return `${response?.status} : ${response?.statusText}`;
+})
+
 export const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -81,6 +89,7 @@ export const postsSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      /* fetch post extra reducers */
       .addCase(fetchPosts.pending, (state, action) => {
         state.status = "loading";
       })
@@ -106,6 +115,8 @@ export const postsSlice = createSlice({
         state.status = "rejected";
         state.error = action.error.message;
       })
+
+      /* Add post extra reducers */
       .addCase(addPosts.fulfilled, (state, action) => {
         action.payload.userId = Number(action.payload.userId);
         action.payload.date = new Date().toISOString();
@@ -119,6 +130,8 @@ export const postsSlice = createSlice({
         //Post newpost to post []
         state.post.push(action.payload);
       })
+
+      /* Update post extra reducers */
       .addCase(update.fulfilled, (state, action) => {
         if (!action.payload?.id) {
           console.log("Update could not be completed");
@@ -130,6 +143,19 @@ export const postsSlice = createSlice({
         // (filter out previous post with same id)
         const posts = state.post.filter((post) => post.id !== id);
         state.post = [...posts, action.payload];
+      })
+      
+      /* delete post extra reducers */
+      .addCase(deletePosts.fulfilled, (state, action) => {
+        if (!action.payload?.id) {
+          console.log("Could not delete Post");
+          console.log(action.payload);
+          return;
+        }
+        const { id } = action.payload;
+        // (filter out deleted post )
+        const posts = state.post.filter((post) => post.id !== id);
+        state.post = posts;
       });
   },
 });

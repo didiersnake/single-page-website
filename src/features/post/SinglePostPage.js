@@ -14,7 +14,7 @@ function SinglePostPage() {
     if (!post) {
         return (
             <section>
-                <h2>Post not found</h2>
+                <h2> loading...</h2>
             </section>
         )
     }

@@ -53,7 +53,26 @@ function EditPostForm() {
         setUserId("");
         navigate(`/post/${post.id}`)
       } catch (error) {
-        console.log("failed to save", error);
+        console.log("failed to save post", error);
+      } finally {
+        setAddRequestStatus("idle");
+      }
+    }
+  };
+
+  const onPostDelete = () => {
+    if (canSave) {
+      try {
+        setAddRequestStatus("pending");
+        dispatch(update({ id:post.id })).unwrap();
+
+        setContent("");
+        setTitle("");
+        setUserId("");
+        console.log("deleted")
+        navigate("/")
+      } catch (error) {
+        console.log("failed to delete post", error);
       } finally {
         setAddRequestStatus("idle");
       }
@@ -108,6 +127,13 @@ function EditPostForm() {
           onClick={onPostEdit}
         >
           Save
+        </button>
+        <button
+          className="btn"
+          type="button"
+          onClick={onPostDelete}
+        >
+          Delete
         </button>
       </form>
     </section>

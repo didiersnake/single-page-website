@@ -1,18 +1,21 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   selectAllPosts,
   getPostError,
   getPostStatus,
-  fetchPosts,
 } from "./postSlice";
 
-import { useEffect } from "react";
 import PostExcerpt from "./PostExcerpt";
 
 const PostList = () => {
   const posts = useSelector(selectAllPosts);
   const postStatus = useSelector(getPostStatus);
   const postError = useSelector(getPostError);
+
+  /* 
+  //Better practice remove dispatch, fetchPost and useEffect
+  //Load the post in index.js as for Users.
+  // Makes app faster
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -20,8 +23,11 @@ const PostList = () => {
       dispatch(fetchPosts());
     }
   }, [postStatus, dispatch]);
+   */
   
-  /* // Arrange post view by latest date
+
+  /*
+   // Arrange post view by latest date
 const orderedPost = posts
   .slice()
   .sort((a, b) => b.date.localeCompare(a.date));
@@ -38,7 +44,8 @@ const renderedPosts = orderedPost.map((item) => {
       <ReactionButtons post={item} />
     </article>
   );
-}); */
+}); 
+*/
   
   //Abstract rendered post to PostExcerpt.js
   let content;
