@@ -24,7 +24,6 @@ const PostList = () => {
     }
   }, [postStatus, dispatch]);
    */
-  
 
   /*
    // Arrange post view by latest date

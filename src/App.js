@@ -33,7 +33,7 @@ function App() {
           <Route path=":userId" element={<UserPage />} />
         </Route>
 
-        <Route path="*" element={<Navigate to={"/"} replace />}></Route>
+        <Route path="*" element={<Navigate to={"/"} replace />}/>
       </Route>
     </Routes>
   );
