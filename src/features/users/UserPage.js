@@ -2,7 +2,7 @@ import React from 'react'
 import { selectUserById } from './userSlice'
 import { useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
-import { selectAllPosts, selectPostByUser } from '../post/postSlice'
+import { selectPostByUser } from '../post/postSlice'
 
 function UserPage() {
     //get user

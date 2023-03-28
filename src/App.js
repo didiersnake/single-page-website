@@ -1,6 +1,5 @@
 import React from "react";
-/* import AddPostForm from "./features/post/AddPostForm";
-import PostList from "./features/post/PostList"; */
+
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import UserPage from "./features/users/UserPage";
